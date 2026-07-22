@@ -9,3 +9,32 @@ body{
 .display-4{
     margin-top:80px;
 }
+
+.card{
+    border:none;
+    border-radius:15px;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    transition:.3s;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+.btn{
+    border-radius:8px;
+}
+
+form p{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}

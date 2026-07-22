@@ -3,5 +3,33 @@
 {% block title %}Placement Officer Registration{% endblock %}
 
 {% block content %}
-<h2>Placement Officer Registration</h2>
+
+<div class="row justify-content-center">
+
+<div class="col-md-6">
+
+<div class="card shadow p-4">
+
+<h2 class="text-center mb-4">
+Placement Officer Registration
+</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button class="btn btn-warning w-100">
+Register
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
 {% endblock %}

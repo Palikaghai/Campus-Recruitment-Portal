@@ -1,6 +1,17 @@
 from django.db import models
 from accounts.models import CustomUser
+from django.contrib.auth.forms import AuthenticationForm
 
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            # Perform login logic here
+            pass
+    else:
+        form = AuthenticationForm()
+    return render(request, "accounts/login.html", {"form": form})
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(
@@ -15,3 +26,5 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return self.user.get_full_name()
+    
+

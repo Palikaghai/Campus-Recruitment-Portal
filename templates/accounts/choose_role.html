@@ -3,5 +3,48 @@
 {% block title %}Choose Role{% endblock %}
 
 {% block content %}
-<h2>Choose Your Role</h2>
+
+<div class="container mt-5">
+
+    <h2 class="text-center mb-5">Choose Your Role</h2>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h3>🎓 Student</h3>
+                <p>Register as a student to apply for placement drives.</p>
+
+                <a href="{% url 'student_register' %}" class="btn btn-primary">
+                    Continue
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h3>🏢 Recruiter</h3>
+                <p>Register as a recruiter to post jobs.</p>
+
+                <a href="{% url 'recruiter_register' %}" class="btn btn-success">
+                    Continue
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow text-center p-4">
+                <h3>👨‍💼 Placement Officer</h3>
+                <p>Manage campus placements and students.</p>
+
+                <a href="{% url 'officer_register' %}" class="btn btn-warning">
+                    Continue
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
