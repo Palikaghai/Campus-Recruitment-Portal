@@ -1,9 +1,11 @@
+import uuid
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm
+from django.contrib.auth import login, logout
 
 from .forms import (
+    LoginForm,
     StudentRegistrationForm,
     RecruiterRegistrationForm,
     OfficerRegistrationForm,
@@ -12,7 +14,6 @@ from .forms import (
 from students.models import StudentProfile
 from recruiters.models import RecruiterProfile
 from placement.models import PlacementOfficerProfile
-from django.shortcuts import render
 
 
 def login_view(request):
@@ -38,6 +39,8 @@ def login_view(request):
 
             login(request, user)
 
+            messages.success(request, "Login Successful!")
+
             if user.role == "student":
                 return redirect("student_dashboard")
 
@@ -46,6 +49,9 @@ def login_view(request):
 
             elif user.role == "placement_officer":
                 return redirect("placement_dashboard")
+
+        else:
+            messages.error(request, "Invalid email or password.")
 
     return render(
         request,
@@ -70,21 +76,19 @@ def student_register(request):
 
             StudentProfile.objects.create(
                 user=user,
-                registration_number="TEMP",
+                registration_number=f"TEMP-{uuid.uuid4().hex[:8].upper()}",
                 department="Not Updated",
-                batch=0,
-                cgpa=0.0,
+                batch=2027,
+                cgpa=0.00,
             )
 
-            messages.success(
-                request,
-                "Registration Successful! Please Login."
-            )
-
+            messages.success(request, "Registration Successful!")
             return redirect("login")
 
-    else:
+        else:
+            print(form.errors)
 
+    else:
         form = StudentRegistrationForm()
 
     return render(
@@ -92,6 +96,7 @@ def student_register(request):
         "accounts/student_register.html",
         {"form": form},
     )
+
 
 def recruiter_register(request):
 
@@ -111,13 +116,12 @@ def recruiter_register(request):
 
             messages.success(
                 request,
-                "Recruiter Registered Successfully!"
+                "Recruiter Registered Successfully!",
             )
 
             return redirect("login")
 
     else:
-
         form = RecruiterRegistrationForm()
 
     return render(
@@ -145,13 +149,12 @@ def officer_register(request):
 
             messages.success(
                 request,
-                "Placement Officer Registered Successfully!"
+                "Placement Officer Registered Successfully!",
             )
 
             return redirect("login")
 
     else:
-
         form = OfficerRegistrationForm()
 
     return render(
@@ -159,3 +162,15 @@ def officer_register(request):
         "accounts/officer_register.html",
         {"form": form},
     )
+
+
+def logout_view(request):
+
+    logout(request)
+
+    messages.success(
+        request,
+        "Logged out successfully.",
+    )
+
+    return redirect("login")

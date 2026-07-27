@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Resume{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="row justify-content-center">
+
+<div class="col-lg-8">
+
+<div class="card shadow border-0 rounded-4">
+
+<div class="card-body p-5">
+
+<h2 class="mb-4">
+📄 My Resume
+</h2>
+
+{% if profile.resume %}
+
+<div class="alert alert-success">
+
+<h5>Current Resume</h5>
+
+<p>{{ profile.resume.name }}</p>
+
+<a href="{{ profile.resume.url }}"
+   target="_blank"
+   class="btn btn-primary">
+
+View Resume
+
+</a>
+
+<a href="{{ profile.resume.url }}"
+   download
+   class="btn btn-success">
+
+Download
+
+</a>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+No resume uploaded yet.
+
+</div>
+
+{% endif %}
+
+<hr>
+
+<h5>Upload / Replace Resume</h5>
+
+<form method="POST" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<input
+type="file"
+name="resume"
+class="form-control"
+accept=".pdf"
+required>
+
+<button
+class="btn btn-primary mt-3">
+
+Upload Resume
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

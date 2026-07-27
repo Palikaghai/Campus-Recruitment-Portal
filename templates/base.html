@@ -1,52 +1,476 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Campus Recruitment Portal{% endblock %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Campus Recruitment Portal — connecting students, recruiters and placement officers on one platform.">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<title>{% block title %}{% endblock %} | Campus Recruitment Portal</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --brand-blue:#0d6efd;
+    --brand-blue-light:#3d8bfd;
+    --brand-dark:#0b1320;
+    --text-muted:#5c6b82;
+    --bg-soft:#f5f7fb;
+    --radius-lg:20px;
+    --radius-md:14px;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg-soft);
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+main{
+    flex:1;
+}
+
+/* ---- Navbar ---- */
+
+.navbar{
+    background:linear-gradient(90deg,var(--brand-blue),var(--brand-blue-light));
+    box-shadow:0 4px 20px rgba(0,0,0,.12);
+    padding:14px 0;
+}
+
+.navbar-brand{
+    font-size:22px;
+    font-weight:700;
+    color:#fff!important;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.nav-link{
+    color:rgba(255,255,255,.9)!important;
+    font-weight:500;
+    margin-left:6px;
+    padding:8px 14px!important;
+    border-radius:30px;
+    transition:.25s;
+    position:relative;
+}
+
+.nav-link:hover{
+    background:rgba(255,255,255,.15);
+    color:#fff!important;
+}
+
+.nav-link.active{
+    background:rgba(255,255,255,.22);
+    color:#fff!important;
+    font-weight:600;
+}
+
+.btn-login{
+    border:2px solid rgba(255,255,255,.85);
+    color:#fff;
+    border-radius:30px;
+    padding:7px 20px;
+    margin-left:10px;
+    font-weight:500;
+    transition:.25s;
+}
+
+.btn-login:hover{
+    background:#fff;
+    color:var(--brand-blue);
+}
+
+.btn-register{
+    background:#fff;
+    color:var(--brand-blue);
+    border-radius:30px;
+    padding:7px 20px;
+    margin-left:10px;
+    font-weight:600;
+    transition:.25s;
+}
+
+.btn-register:hover{
+    transform:scale(1.05);
+    color:var(--brand-blue);
+}
+
+.navbar-toggler{
+    border:none;
+    padding:6px 10px;
+}
+
+.navbar-toggler:focus{
+    box-shadow:none;
+}
+
+.user-menu-toggle{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.3);
+    color:#fff;
+    border-radius:30px;
+    padding:6px 16px 6px 6px;
+    font-weight:500;
+    font-size:14.5px;
+}
+
+.user-menu-toggle:hover{
+    background:rgba(255,255,255,.25);
+    color:#fff;
+}
+
+.user-avatar-circle{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#fff;
+    color:var(--brand-blue);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+}
+
+.user-menu-toggle::after{
+    display:none;
+}
+
+.dropdown-menu{
+    border:none;
+    border-radius:14px;
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    padding:8px;
+    margin-top:10px!important;
+}
+
+.dropdown-item{
+    border-radius:10px;
+    padding:9px 14px;
+    font-size:14px;
+    font-weight:500;
+}
+
+.dropdown-item:hover{
+    background:var(--bg-soft);
+    color:var(--brand-blue);
+}
+
+.dropdown-item.text-danger:hover{
+    background:#fdeeee;
+    color:#dc3545!important;
+}
+
+@media (max-width:991px){
+    .navbar-collapse{
+        background:var(--brand-blue);
+        border-radius:14px;
+        padding:14px;
+        margin-top:10px;
+    }
+    .btn-login, .btn-register{
+        display:inline-block;
+        margin:8px 4px 0 0;
+    }
+}
+
+/* ---- Shared page elements (used across templates) ---- */
+
+.section-title{
+    font-size:38px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.card{
+    border:none;
+    border-radius:18px;
+    transition:.35s;
+}
+
+.stats{
+    background:#fff;
+    border-radius:var(--radius-lg);
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.hero-btn{
+    padding:14px 30px;
+    border-radius:40px;
+    font-weight:600;
+}
+
+/* ---- Global alert / message styling ---- */
+
+.message-container{
+    max-width:1100px;
+    margin:18px auto 0;
+    padding:0 16px;
+}
+
+.message-container .alert{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+}
+
+/* ---- Footer ---- */
+
+footer{
+    background:var(--brand-dark);
+    color:#fff;
+    padding:50px 0 30px;
+    margin-top:60px;
+}
+
+footer h4{
+    font-weight:700;
+}
+
+footer h5{
+    font-weight:600;
+    font-size:16px;
+    margin-bottom:16px;
+}
+
+footer .footer-link{
+    color:rgba(255,255,255,.7);
+    text-decoration:none;
+    display:block;
+    margin-bottom:10px;
+    font-size:14.5px;
+    transition:.2s;
+}
+
+footer .footer-link:hover{
+    color:#fff;
+    padding-left:4px;
+}
+
+footer .social-icon{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    margin-right:10px;
+    font-size:17px;
+    transition:.25s;
+}
+
+footer .social-icon:hover{
+    background:var(--brand-blue);
+    transform:translateY(-3px);
+}
+
+footer p{
+    color:rgba(255,255,255,.65);
+    font-size:14.5px;
+}
+
+footer hr{
+    border-color:rgba(255,255,255,.1);
+    margin:30px 0 20px;
+}
+
+footer .footer-bottom{
+    color:rgba(255,255,255,.5);
+    font-size:13.5px;
+}
+
+</style>
+
+{% block extra_head %}{% endblock %}
+
 </head>
+
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+<nav class="navbar navbar-expand-lg sticky-top">
 
-            <a class="navbar-brand fw-bold" href="/">
-                Campus Recruitment
-            </a>
+<div class="container">
 
-            <div class="ms-auto">
+<a class="navbar-brand" href="/">🎓 Campus Portal</a>
 
-<a href="{% url 'login' %}" class="btn btn-light me-2">
-                        Login
-                </a>
+<button class="navbar-toggler bg-white" data-bs-toggle="collapse"
+data-bs-target="#nav" aria-label="Toggle navigation">
 
-<a href="{% url 'register' %}" class="btn btn-warning">
-                        Register
-                </a>
+<span class="navbar-toggler-icon"></span>
 
-            </div>
+</button>
 
+<div class="collapse navbar-collapse" id="nav">
+
+<ul class="navbar-nav ms-auto align-items-lg-center">
+
+<li class="nav-item">
+<a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="/">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">Placement Drives</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">Companies</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">About</a>
+</li>
+
+{% if user.is_authenticated %}
+
+<li class="nav-item dropdown">
+
+<a class="nav-link user-menu-toggle dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+<span class="user-avatar-circle">{{ user.first_name|default:user.username|first|upper }}</span>
+{{ user.first_name|default:user.username }}
+</a>
+
+<ul class="dropdown-menu dropdown-menu-end">
+
+<li>
+<a class="dropdown-item" href="{% url 'student_dashboard' %}">
+<i class="bi bi-speedometer2 me-2"></i>Dashboard
+</a>
+</li>
+
+<li>
+<a class="dropdown-item" href="#">
+<i class="bi bi-person me-2"></i>My Profile
+</a>
+</li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li>
+<a class="dropdown-item text-danger" href="{% url 'logout' %}">
+<i class="bi bi-box-arrow-right me-2"></i>Logout
+</a>
+</li>
+
+</ul>
+
+</li>
+
+{% else %}
+
+<li class="nav-item">
+<a class="btn btn-login" href="{% url 'login' %}">
+Login
+</a>
+</li>
+
+<li class="nav-item">
+<a class="btn btn-register" href="{% url 'register' %}">
+Register
+</a>
+</li>
+
+{% endif %}
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+{% if messages %}
+<div class="message-container">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </nav>
+    {% endfor %}
+</div>
+{% endif %}
 
-    <div class="container mt-5">
+<main>
+{% block content %}
+{% endblock %}
+</main>
 
-        {% block content %}
-        {% endblock %}
+<footer>
 
-    </div>
+<div class="container">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<div class="row">
 
-    <script src="{% static 'js/main.js' %}"></script>
+<div class="col-md-6 mb-4 mb-md-0">
+
+<h4>🎓 Campus Recruitment Portal</h4>
+
+<p>
+Connecting students with the world's best companies through one smart platform.
+</p>
+
+</div>
+
+<div class="col-md-3 mb-4 mb-md-0">
+
+<h5>Quick Links</h5>
+
+<a href="/" class="footer-link">Home</a>
+<a href="#" class="footer-link">Placement Drives</a>
+<a href="#" class="footer-link">Companies</a>
+<a href="#" class="footer-link">Contact</a>
+
+</div>
+
+<div class="col-md-3">
+
+<h5>Follow Us</h5>
+
+<div>
+<a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+<a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+<a href="#" class="social-icon" aria-label="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
+</div>
+
+</div>
+
+</div>
+
+<hr>
+
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+<p class="footer-bottom mb-0">© 2026 Campus Recruitment Portal. All Rights Reserved.</p>
+<p class="footer-bottom mb-0">Built for LPU Capstone Project</p>
+</div>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block extra_scripts %}{% endblock %}
 
 </body>
 </html>

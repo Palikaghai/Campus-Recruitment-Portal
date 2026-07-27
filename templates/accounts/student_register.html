@@ -1,32 +1,112 @@
 {% extends 'base.html' %}
 
-{% block title %}Student Registration{% endblock %}
+{% block title %}
+Student Registration
+{% endblock %}
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="container mt-5">
 
-<div class="col-md-6">
+    <div class="row justify-content-center">
 
-<div class="card shadow p-4">
+        <div class="col-md-6">
 
-<h2 class="text-center mb-4">Student Registration</h2>
+            <div class="card shadow">
 
-<form method="POST">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center">Student Registration</h3>
+                </div>
 
-{% csrf_token %}
+                <div class="card-body">
 
-{{ form.as_p }}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-<button class="btn btn-primary w-100">
-Register
-</button>
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <strong>Please fix the following errors:</strong>
 
-</form>
+                            <ul class="mt-2 mb-0">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li><strong>{{ field.label }}</strong>: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
 
-</div>
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
 
-</div>
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label>First Name</label>
+                            {{ form.first_name }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Username</label>
+                            {{ form.username }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Email</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Phone Number</label>
+                            {{ form.phone_number }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Password</label>
+                            {{ form.password1 }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Confirm Password</label>
+                            {{ form.password2 }}
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            Register
+                        </button>
+
+                    </form>
+
+                    <hr>
+
+                    <p class="text-center">
+                        Already have an account?
+                        <a href="{% url 'login' %}">
+                            Login Here
+                        </a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 

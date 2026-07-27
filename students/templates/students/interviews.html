@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}My Interviews{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<h2 class="fw-bold mb-4">
+🎤 Upcoming Interviews
+</h2>
+
+<div class="row">
+
+{% for interview in interviews %}
+
+<div class="col-lg-6 mb-4">
+
+<div class="card shadow border-0 rounded-4">
+
+<div class="card-body">
+
+<h4>
+{{ interview.application.drive.company.name }}
+</h4>
+
+<h6 class="text-primary">
+{{ interview.application.drive.job_role }}
+</h6>
+
+<hr>
+
+<p>
+<strong>Interview Type:</strong>
+{{ interview.interview_type }}
+</p>
+
+<p>
+<strong>Date:</strong>
+{{ interview.interview_date }}
+</p>
+
+<p>
+<strong>Time:</strong>
+{{ interview.interview_time }}
+</p>
+
+<p>
+<strong>Mode:</strong>
+{{ interview.mode }}
+</p>
+
+<p>
+<strong>Interviewer:</strong>
+{{ interview.interviewer }}
+</p>
+
+{% if interview.mode == "Online" %}
+
+<a href="{{ interview.meeting_link }}"
+class="btn btn-primary"
+target="_blank">
+
+Join Meeting
+
+</a>
+
+{% else %}
+
+<p>
+
+📍 {{ interview.venue }}
+
+</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-info">
+
+No interviews scheduled.
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

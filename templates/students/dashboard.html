@@ -1,17 +1,435 @@
 {% extends 'base.html' %}
 
-{% block title %}
-Student Dashboard
-{% endblock %}
+{% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
 
-<h2>Welcome {{ request.user.first_name }}</h2>
+<style>
 
-<h4>Student Dashboard</h4>
+    .dashboard-wrap{
+        background:#f5f7fb;
+        padding:36px 0 60px;
+    }
 
-<p>
-You are logged in as a Student.
-</p>
+    /* ---- Sidebar ---- */
+
+    .sidebar{
+        border:none;
+        border-radius:20px;
+        overflow:hidden;
+    }
+
+    .sidebar-header{
+        background:linear-gradient(135deg,#0d6efd,#3d8bfd);
+        padding:26px 22px;
+        color:#fff;
+    }
+
+    .sidebar-header h3{
+        font-size:19px;
+        font-weight:700;
+        margin-bottom:2px;
+        display:flex;
+        align-items:center;
+        gap:8px;
+    }
+
+    .sidebar-header p{
+        font-size:12.5px;
+        color:rgba(255,255,255,.8);
+        margin-bottom:0;
+    }
+
+    .sidebar .list-group{
+        padding:14px;
+    }
+
+    .sidebar .list-group-item{
+        border:none;
+        border-radius:12px;
+        padding:12px 16px;
+        font-weight:500;
+        font-size:14.5px;
+        color:#3a4459;
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin-bottom:4px;
+        transition:.2s;
+    }
+
+    .sidebar .list-group-item i{
+        font-size:17px;
+        width:20px;
+        text-align:center;
+        color:#0d6efd;
+    }
+
+    .sidebar .list-group-item:hover{
+        background:#eef4ff;
+        color:#0d6efd;
+    }
+
+    .sidebar .list-group-item.active{
+        background:linear-gradient(135deg,#0d6efd,#3d8bfd);
+        color:#fff;
+    }
+
+    .sidebar .list-group-item.active i{
+        color:#fff;
+    }
+
+    .sidebar .list-group-item.text-danger i{
+        color:#dc3545;
+    }
+
+    .sidebar .list-group-item.text-danger:hover{
+        background:#fdeeee;
+        color:#dc3545;
+    }
+
+    /* ---- Welcome ---- */
+
+    .welcome-heading{
+        font-weight:700;
+        font-size:26px;
+    }
+
+    .welcome-sub{
+        color:#5c6b82;
+        font-size:14.5px;
+    }
+
+    /* ---- Stat cards ---- */
+
+    .stats-card{
+        border:none;
+        border-radius:20px;
+        color:#fff;
+        transition:.3s;
+        position:relative;
+        overflow:hidden;
+    }
+
+    .stats-card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 18px 34px rgba(0,0,0,.18);
+    }
+
+    .stats-card .card-body{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:26px;
+    }
+
+    .stats-card h5{
+        font-size:13.5px;
+        font-weight:600;
+        text-transform:uppercase;
+        letter-spacing:.5px;
+        opacity:.9;
+        margin-bottom:6px;
+    }
+
+    .stats-card h1{
+        font-weight:700;
+        font-size:32px;
+        margin-bottom:0;
+    }
+
+    .stats-icon{
+        width:52px;
+        height:52px;
+        border-radius:14px;
+        background:rgba(255,255,255,.2);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:22px;
+    }
+
+    .gradient1{ background:linear-gradient(135deg,#4f46e5,#3b82f6); }
+    .gradient2{ background:linear-gradient(135deg,#16a34a,#22c55e); }
+    .gradient3{ background:linear-gradient(135deg,#ef4444,#f97316); }
+
+    /* ---- Drives table ---- */
+
+    .drives-card{
+        border:none;
+        border-radius:20px;
+        overflow:hidden;
+    }
+
+    .drives-card .card-header{
+        background:linear-gradient(135deg,#0d6efd,#3d8bfd);
+        border:none;
+        padding:20px 24px;
+    }
+
+    .drives-card .card-header h4{
+        font-size:18px;
+        font-weight:600;
+        margin-bottom:0;
+    }
+
+    .table td,
+    .table th{
+        vertical-align:middle;
+    }
+
+    .table thead th{
+        font-size:12.5px;
+        text-transform:uppercase;
+        letter-spacing:.5px;
+        color:#5c6b82;
+        font-weight:600;
+        border-bottom:1px solid #eef1f7;
+    }
+
+    .table tbody tr:hover{
+        background:#f8f9fc;
+    }
+
+    .company-logo{
+        width:42px;
+        height:42px;
+        border-radius:50%;
+        object-fit:cover;
+    }
+
+    .company-name{
+        font-weight:600;
+        color:#161b26;
+    }
+
+    .package-badge{
+        background:#eaf6ee;
+        color:#16a34a;
+        font-weight:600;
+        padding:5px 12px;
+        border-radius:8px;
+        font-size:13px;
+    }
+
+    .deadline-text{
+        font-size:13.5px;
+        color:#5c6b82;
+    }
+
+    .empty-state{
+        padding:60px 20px;
+        text-align:center;
+    }
+
+    .empty-state i{
+        font-size:46px;
+        color:#c9d3e3;
+        margin-bottom:14px;
+    }
+
+    .empty-state h5{
+        font-weight:600;
+    }
+
+    .empty-state p{
+        color:#5c6b82;
+        font-size:14px;
+    }
+
+</style>
+
+<div class="dashboard-wrap">
+
+<div class="container-fluid">
+
+<div class="row">
+
+<!-- Sidebar -->
+
+<div class="col-lg-3 mb-4">
+
+<div class="card sidebar shadow-sm">
+
+<div class="sidebar-header">
+    <h3><i class="bi bi-mortarboard-fill"></i> Student Panel</h3>
+    <p>{{ request.user.get_full_name|default:request.user.username }}</p>
+</div>
+
+<div class="list-group">
+
+<a href="{% url 'student_dashboard' %}" class="list-group-item active">
+    <i class="bi bi-house-door-fill"></i> Dashboard
+</a>
+
+<a href="{% url 'student_profile' %}" class="list-group-item">
+    <i class="bi bi-house-door-fill"></i> My Profile
+</a>
+
+
+
+<a href="{% url 'student_resume' %}" class="list-group-item">
+    <i class="bi bi-file-earmark-text-fill"></i> Resume
+</a>
+
+<a href="{% url 'placement_drives' %}" class="list-group-item">
+    <i class="bi bi-briefcase-fill"></i> Placement Drives
+</a>
+
+<a href="{% url 'student_applications' %}" class="list-group-item">
+    <i class="bi bi-file-earmark-check-fill"></i> Applications
+</a>
+
+<a href="{% url 'student_interviews' %}" class="list-group-item">
+    <i class="bi bi-calendar-event-fill"></i> Interviews
+</a>
+
+<a href="{% url 'logout' %}" class="list-group-item text-danger">
+    <i class="bi bi-box-arrow-right"></i> Logout
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Main Content -->
+
+<div class="col-lg-9">
+
+<h2 class="welcome-heading mb-1">
+    Welcome back, <span class="text-primary">{{ request.user.first_name }}</span>
+    <i class="bi bi-hand-thumbs-up-fill text-warning"></i>
+</h2>
+<p class="welcome-sub mb-4">Here's what's happening with your placement journey today.</p>
+
+<div class="row g-4 mb-4">
+
+<div class="col-md-4">
+    <div class="card stats-card gradient1 shadow-sm">
+        <div class="card-body">
+            <div>
+                <h5>Total Drives</h5>
+                <h1>{{ total_drives }}</h1>
+            </div>
+            <div class="stats-icon"><i class="bi bi-briefcase-fill"></i></div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card stats-card gradient2 shadow-sm">
+        <div class="card-body">
+            <div>
+                <h5>Applications</h5>
+                <h1>{{ total_applications }}</h1>
+            </div>
+            <div class="stats-icon"><i class="bi bi-file-earmark-check-fill"></i></div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card stats-card gradient3 shadow-sm">
+        <div class="card-body">
+            <div>
+                <h5>Interviews</h5>
+                <h1>0</h1>
+            </div>
+            <div class="stats-icon"><i class="bi bi-calendar-event-fill"></i></div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<!-- Drives -->
+
+<div class="card drives-card shadow-sm">
+
+<div class="card-header text-white d-flex align-items-center justify-content-between">
+    <h4><i class="bi bi-lightning-charge-fill me-1"></i> Latest Placement Drives</h4>
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle mb-0">
+
+<thead class="table-light">
+<tr>
+<th>Company</th>
+<th>Role</th>
+<th>Package</th>
+<th>Location</th>
+<th>Deadline</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for drive in drives %}
+<tr>
+
+<td>
+<div class="d-flex align-items-center gap-2">
+{% if drive.company.logo %}
+<img src="{{ drive.company.logo.url }}" class="company-logo">
+{% else %}
+<img src="https://ui-avatars.com/api/?name={{ drive.company.name }}&background=0d6efd&color=fff" class="company-logo">
+{% endif %}
+<span class="company-name">{{ drive.company.name }}</span>
+</div>
+</td>
+
+<td>{{ drive.job_role }}</td>
+
+<td><span class="package-badge">₹{{ drive.package }} LPA</span></td>
+
+<td>{{ drive.location }}</td>
+
+<td><span class="deadline-text"><i class="bi bi-clock-history me-1"></i>{{ drive.deadline }}</span></td>
+
+<td>
+{% if drive.id in applied_drive_ids %}
+<button class="btn btn-success btn-sm" disabled>
+    <i class="bi bi-check-lg"></i> Applied
+</button>
+{% else %}
+<a href="{% url 'apply_drive' drive.id %}" class="btn btn-primary btn-sm">
+    Apply
+</a>
+{% endif %}
+</td>
+
+</tr>
+{% empty %}
+<tr>
+<td colspan="6">
+<div class="empty-state">
+    <i class="bi bi-inbox"></i>
+    <h5>No Placement Drives Available</h5>
+    <p>Placement Officer hasn't created any drives yet.</p>
+</div>
+</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 {% endblock %}

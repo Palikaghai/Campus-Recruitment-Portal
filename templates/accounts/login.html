@@ -1,46 +1,242 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}
+Login
+{% endblock %}
 
 {% block content %}
 
-<div class="row justify-content-center">
+<style>
 
-<div class="col-md-5">
+    .auth-wrapper{
+        background:linear-gradient(120deg,#0d6efd 0%,#3d8bfd 55%,#6fb1ff 100%);
+        min-height:calc(100vh - 76px);
+        display:flex;
+        align-items:center;
+        padding:60px 0;
+        position:relative;
+        overflow:hidden;
+    }
 
-<div class="card shadow p-4">
+    .auth-wrapper::before{
+        content:"";
+        position:absolute;
+        top:-140px;
+        left:-120px;
+        width:400px;
+        height:400px;
+        background:rgba(255,255,255,.08);
+        border-radius:50%;
+    }
 
-<h2 class="text-center mb-4">
-Login
-</h2>
+    .auth-wrapper::after{
+        content:"";
+        position:absolute;
+        bottom:-160px;
+        right:-100px;
+        width:360px;
+        height:360px;
+        background:rgba(255,255,255,.06);
+        border-radius:50%;
+    }
 
-<form method="POST">
+    .auth-card{
+        background:#fff;
+        border:none;
+        border-radius:22px;
+        padding:44px 40px;
+        box-shadow:0 25px 60px rgba(11,19,32,.25);
+        position:relative;
+        z-index:2;
+    }
 
-{% csrf_token %}
+    .auth-icon{
+        width:60px;
+        height:60px;
+        border-radius:16px;
+        background:linear-gradient(135deg,#0d6efd,#3d8bfd);
+        color:#fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:26px;
+        margin:0 auto 18px;
+    }
 
-{{ form.as_p }}
+    .auth-card h2{
+        font-weight:700;
+        font-size:26px;
+    }
 
-<button class="btn btn-primary w-100">
-Login
-</button>
+    .auth-subtitle{
+        color:#5c6b82;
+        font-size:14.5px;
+    }
 
-</form>
+    .form-label{
+        font-weight:600;
+        font-size:14px;
+        color:#161b26;
+    }
 
-<br>
+    /* Style the raw Django form widgets since they carry no Bootstrap classes */
+    .auth-card form input[type="text"],
+    .auth-card form input[type="email"],
+    .auth-card form input[type="password"]{
+        width:100%;
+        padding:11px 16px;
+        border:1px solid #dde3ee;
+        border-radius:12px;
+        font-size:14.5px;
+        transition:.25s;
+        background:#f8f9fc;
+    }
 
-<p class="text-center">
+    .auth-card form input[type="text"]:focus,
+    .auth-card form input[type="email"]:focus,
+    .auth-card form input[type="password"]:focus{
+        outline:none;
+        border-color:#0d6efd;
+        background:#fff;
+        box-shadow:0 0 0 4px rgba(13,110,253,.12);
+    }
 
-Don't have an account?
+    .field-error{
+        color:#dc3545;
+        font-size:13px;
+        margin-top:5px;
+    }
 
-<a href="{% url 'register' %}">
-Register
-</a>
+    .btn-auth{
+        background:linear-gradient(135deg,#0d6efd,#3d8bfd);
+        border:none;
+        color:#fff;
+        font-weight:600;
+        padding:12px;
+        border-radius:12px;
+        transition:.25s;
+    }
 
-</p>
+    .btn-auth:hover{
+        transform:translateY(-2px);
+        box-shadow:0 12px 24px rgba(13,110,253,.3);
+        color:#fff;
+    }
 
-</div>
+    .auth-divider{
+        display:flex;
+        align-items:center;
+        color:#a9b2c3;
+        font-size:13px;
+        margin:26px 0 18px;
+    }
 
-</div>
+    .auth-divider::before,
+    .auth-divider::after{
+        content:"";
+        flex:1;
+        height:1px;
+        background:#e9ecf3;
+    }
+
+    .auth-divider::before{ margin-right:12px; }
+    .auth-divider::after{ margin-left:12px; }
+
+    .auth-card a{
+        color:#0d6efd;
+        font-weight:600;
+        text-decoration:none;
+    }
+
+    .auth-card a:hover{
+        text-decoration:underline;
+    }
+
+</style>
+
+<div class="auth-wrapper">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-5 col-lg-4">
+
+                <div class="auth-card">
+
+                    <div class="text-center">
+                        <div class="auth-icon">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <h2>Welcome Back</h2>
+                        <p class="auth-subtitle mb-4">
+                            Login to continue to your dashboard
+                        </p>
+                    </div>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} py-2">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger py-2">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i>
+                            Invalid email or password.
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="bi bi-envelope-fill me-1 text-primary"></i>
+                                Email
+                            </label>
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="field-error">{{ form.username.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label">
+                                    <i class="bi bi-lock-fill me-1 text-primary"></i>
+                                    Password
+                                </label>
+                                <a href="#" class="small">Forgot password?</a>
+                            </div>
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="field-error">{{ form.password.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-auth w-100 mt-2">
+                            Login <i class="bi bi-arrow-right ms-1"></i>
+                        </button>
+
+                    </form>
+
+                    <div class="auth-divider">or</div>
+
+                    <p class="text-center mb-0">
+                        Don't have an account?
+                        <a href="{% url 'register' %}">Register</a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 

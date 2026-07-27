@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Placement Drives{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<h2 class="fw-bold mb-4">
+💼 Available Placement Drives
+</h2>
+
+<div class="row">
+
+{% for drive in drives %}
+
+<div class="col-lg-6 mb-4">
+
+<div class="card shadow border-0 rounded-4 h-100">
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between">
+
+<div>
+
+<h4>{{ drive.company.name }}</h4>
+
+<h6 class="text-primary">
+
+{{ drive.job_role }}
+
+</h6>
+
+</div>
+
+{% if drive.company.logo %}
+<img
+src="{{ drive.company.logo.url }}"
+width="60">
+{% endif %}
+
+</div>
+
+<hr>
+
+<p>
+
+📍 <strong>Location:</strong>
+
+{{ drive.location }}
+
+</p>
+
+<p>
+
+💰 <strong>Package:</strong>
+
+₹{{ drive.package }} LPA
+
+</p>
+
+<p>
+
+🎓 <strong>Eligibility:</strong>
+
+CGPA ≥ {{ drive.eligibility_cgpa }}
+
+</p>
+
+<p>
+
+📅 <strong>Deadline:</strong>
+
+{{ drive.deadline }}
+
+</p>
+
+<p>
+
+{{ drive.description|truncatewords:25 }}
+
+</p>
+
+<a
+href="{% url 'apply_drive' drive.id %}"
+class="btn btn-primary w-100">
+
+Apply Now
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-info">
+
+No placement drives available.
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

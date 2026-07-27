@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<div class="row">
+
+<!-- Left Card -->
+
+<div class="col-lg-4">
+
+<div class="card shadow-lg border-0 rounded-4">
+
+<div class="card-body text-center">
+
+<img src="https://ui-avatars.com/api/?name={{ request.user.first_name }}+{{ request.user.last_name }}&size=180"
+class="rounded-circle mb-3">
+
+<h3>
+
+{{ request.user.first_name }}
+{{ request.user.last_name }}
+
+</h3>
+
+<p class="text-muted">
+
+Computer Science Student
+
+</p>
+
+<span class="badge bg-primary">
+
+Batch {{ profile.batch }}
+
+</span>
+
+<hr>
+
+<p>
+
+<strong>Registration</strong>
+
+<br>
+
+{{ profile.registration_number }}
+
+</p>
+
+<p>
+
+<strong>CGPA</strong>
+
+<br>
+
+⭐ {{ profile.cgpa }}
+
+</p>
+
+<button class="btn btn-primary rounded-pill w-100">
+
+Edit Profile
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Right -->
+
+<div class="col-lg-8">
+
+<div class="card shadow-sm border-0 rounded-4 mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Personal Information
+
+</h4>
+
+<hr>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<p>
+
+<strong>Name</strong>
+
+<br>
+
+{{ request.user.first_name }}
+{{ request.user.last_name }}
+
+</p>
+
+</div>
+
+<div class="col-md-6">
+
+<p>
+
+<strong>Email</strong>
+
+<br>
+
+{{ request.user.email }}
+
+</p>
+
+</div>
+
+<div class="col-md-6">
+
+<p>
+
+<strong>Department</strong>
+
+<br>
+
+{{ profile.department }}
+
+</p>
+
+</div>
+
+<div class="col-md-6">
+
+<p>
+
+<strong>Batch</strong>
+
+<br>
+
+{{ profile.batch }}
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0 rounded-4 mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Skills
+
+</h4>
+
+<hr>
+
+<span class="badge bg-primary p-2">Python</span>
+
+<span class="badge bg-success p-2">Django</span>
+
+<span class="badge bg-warning text-dark p-2">Machine Learning</span>
+
+<span class="badge bg-danger p-2">TensorFlow</span>
+
+<span class="badge bg-info text-dark p-2">SQL</span>
+
+</div>
+
+</div>
+
+<div class="card shadow-sm border-0 rounded-4">
+
+<div class="card-body">
+
+<h4>
+
+Projects
+
+</h4>
+
+<hr>
+
+<div class="list-group">
+
+<div class="list-group-item">
+
+<h5>
+
+Plant Disease Detection
+
+</h5>
+
+<p>
+
+TensorFlow | CNN | Flask
+
+</p>
+
+</div>
+
+<div class="list-group-item">
+
+<h5>
+
+Smart Parking System
+
+</h5>
+
+<p>
+
+Python | OpenCV | Machine Learning
+
+</p>
+
+</div>
+
+<div class="list-group-item">
+
+<h5>
+
+Appointment Recommendation
+
+</h5>
+
+<p>
+
+NLP | Scikit-learn
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
