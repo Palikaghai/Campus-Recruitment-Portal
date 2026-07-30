@@ -2,6 +2,13 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
 
+# Personal email providers that are NOT allowed for recruiters
+PERSONAL_EMAIL_DOMAINS = [
+    "gmail.com", "yahoo.com", "hotmail.com", "outlook.com",
+    "live.com", "icloud.com", "me.com", "aol.com", "protonmail.com",
+    "ymail.com", "rediffmail.com", "mail.com",
+]
+
 
 class BaseRegistrationForm(UserCreationForm):
 
@@ -34,13 +41,30 @@ class BaseRegistrationForm(UserCreationForm):
 
 class StudentRegistrationForm(BaseRegistrationForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["email"].widget.attrs["placeholder"] = "yourname@gmail.com"
+        self.fields["email"].help_text = "Students must register with a personal email (e.g. @gmail.com)."
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "").lower().strip()
+        if not email:
+            raise forms.ValidationError("Email is required.")
+
+        domain = email.split("@")[-1] if "@" in email else ""
+
+        if domain not in PERSONAL_EMAIL_DOMAINS:
+            raise forms.ValidationError(
+                f"Students must register with a personal email address (e.g. @gmail.com, @yahoo.com). "
+                f"Corporate emails are not accepted for student accounts."
+            )
+        return email
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.role = "student"
-
         if commit:
             user.save()
-
         return user
 
 
@@ -58,17 +82,34 @@ class RecruiterRegistrationForm(BaseRegistrationForm):
         max_length=100,
         widget=forms.TextInput(attrs={
             "class": "form-control",
-            "placeholder": "Designation"
+            "placeholder": "e.g. HR Manager, Talent Acquisition Lead"
         })
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["email"].widget.attrs["placeholder"] = "hr@yourcompany.com"
+        self.fields["email"].help_text = "Recruiters must register with an official corporate/company email address (not Gmail, Yahoo, etc.)."
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "").lower().strip()
+        if not email:
+            raise forms.ValidationError("Email is required.")
+
+        domain = email.split("@")[-1] if "@" in email else ""
+
+        if domain in PERSONAL_EMAIL_DOMAINS:
+            raise forms.ValidationError(
+                f"Recruiters must use an official company email address (e.g. hr@yourcompany.com). "
+                f"Personal email addresses like @gmail.com are not accepted for recruiter registration."
+            )
+        return email
 
     def save(self, commit=True):
         user = super().save(commit=False)
         user.role = "recruiter"
-
         if commit:
             user.save()
-
         return user
 
 
@@ -93,10 +134,8 @@ class OfficerRegistrationForm(BaseRegistrationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.role = "placement_officer"
-
         if commit:
             user.save()
-
         return user
 
 

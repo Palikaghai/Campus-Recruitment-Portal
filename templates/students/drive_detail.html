@@ -1,0 +1,361 @@
+{% extends "base.html" %}
+
+{% block title %}{{ drive.job_role }} at {{ drive.company.name }}{% endblock %}
+
+{% block extra_head %}
+<style>
+.drive-hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b2f4e 50%, #0d6efd22 100%);
+    color: #fff;
+    padding: 50px 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.drive-hero::before {
+    content: "";
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 280px; height: 280px;
+    background: rgba(13,110,253,0.15);
+    border-radius: 50%;
+}
+
+.company-logo-wrapper {
+    width: 80px; height: 80px;
+    border-radius: 18px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    font-size: 36px;
+    font-weight: 700;
+    color: #0d6efd;
+    flex-shrink: 0;
+}
+
+.info-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.92);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.detail-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 576px) {
+    .meta-grid { grid-template-columns: 1fr; }
+}
+
+.meta-item {
+    background: #f8f9fd;
+    border-radius: 14px;
+    padding: 16px 20px;
+}
+
+.meta-item .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #8796af;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.meta-item .value {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a2340;
+}
+
+.eligibility-banner {
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a2340;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f2f8;
+}
+
+.apply-sticky {
+    position: sticky;
+    top: 80px;
+}
+
+[data-bs-theme="dark"] .meta-item {
+    background: #1e2a3a;
+}
+
+[data-bs-theme="dark"] .meta-item .value {
+    color: #e2e8f0;
+}
+
+[data-bs-theme="dark"] .section-heading {
+    color: #e2e8f0;
+    border-bottom-color: #2d3a4e;
+}
+
+[data-bs-theme="dark"] .detail-card {
+    background: #152030;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Banner -->
+<section class="drive-hero">
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-4">
+
+            <!-- Company Logo -->
+            <div class="company-logo-wrapper">
+                {% if drive.company.logo %}
+                    <img src="{{ drive.company.logo.url }}" alt="{{ drive.company.name }}" class="img-fluid rounded-4" style="max-width: 60px; max-height: 60px; object-fit: contain;">
+                {% else %}
+                    {{ drive.company.name|first|upper }}
+                {% endif %}
+            </div>
+
+            <!-- Title and Info Pills -->
+            <div class="flex-grow-1">
+                <div class="mb-2">
+                    <span class="badge bg-success rounded-pill px-3 py-2 fw-semibold me-2">
+                        <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i> Actively Hiring
+                    </span>
+                    <span class="badge bg-primary rounded-pill px-3 py-2 fw-semibold">
+                        <i class="bi bi-people me-1"></i> {{ total_applicants }} Applied
+                    </span>
+                </div>
+
+                <h1 class="fw-bold fs-2 mb-1" style="color:#fff;">{{ drive.job_role }}</h1>
+                <p class="mb-3" style="color:rgba(255,255,255,0.85); font-size: 16px;">
+                    <i class="bi bi-building me-2"></i>{{ drive.company.name }}
+                    {% if drive.company.website %}
+                        &nbsp;•&nbsp;
+                        <a href="{{ drive.company.website }}" target="_blank" class="text-white-50 text-decoration-none">
+                            <i class="bi bi-box-arrow-up-right me-1"></i>Visit Website
+                        </a>
+                    {% endif %}
+                </p>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="info-pill"><i class="bi bi-geo-alt"></i> {{ drive.location }}</span>
+                    <span class="info-pill"><i class="bi bi-currency-rupee"></i> {{ drive.package }} LPA</span>
+                    <span class="info-pill"><i class="bi bi-mortarboard"></i> Min. CGPA {{ drive.eligibility_cgpa }}</span>
+                    <span class="info-pill"><i class="bi bi-calendar3"></i> Deadline {{ drive.deadline|date:"M d, Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container py-5">
+    <div class="row g-5">
+
+        <!-- Left: Full Drive Info -->
+        <div class="col-lg-8">
+
+            <!-- Eligibility Banner -->
+            {% if student %}
+            <div class="eligibility-banner mb-4 {% if is_eligible %}bg-success-subtle{% else %}bg-danger-subtle{% endif %}">
+                <i class="bi {% if is_eligible %}bi-check-circle-fill text-success{% else %}bi-x-circle-fill text-danger{% endif %} fs-4"></i>
+                <div>
+                    {% if is_eligible %}
+                        <div class="fw-bold text-success">You are eligible for this role</div>
+                        <small class="text-muted">Your CGPA ({{ student.cgpa }}) meets the minimum requirement of {{ drive.eligibility_cgpa }}.</small>
+                    {% else %}
+                        <div class="fw-bold text-danger">You are not eligible for this role</div>
+                        <small class="text-muted">Your CGPA ({{ student.cgpa }}) is below the minimum requirement of {{ drive.eligibility_cgpa }}.</small>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Role Details (Meta Grid) -->
+            <div class="detail-card bg-white p-4 mb-4">
+                <h5 class="section-heading"><i class="bi bi-info-circle text-primary me-2"></i>Role Overview</h5>
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <div class="label"><i class="bi bi-briefcase me-1"></i>Job Role</div>
+                        <div class="value">{{ drive.job_role }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="label"><i class="bi bi-building me-1"></i>Company</div>
+                        <div class="value">{{ drive.company.name }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="label"><i class="bi bi-currency-rupee me-1"></i>CTC / Package</div>
+                        <div class="value text-success">₹{{ drive.package }} LPA</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="label"><i class="bi bi-geo-alt me-1"></i>Job Location</div>
+                        <div class="value">{{ drive.location }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="label"><i class="bi bi-mortarboard me-1"></i>CGPA Cutoff</div>
+                        <div class="value text-primary">{{ drive.eligibility_cgpa }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="label"><i class="bi bi-calendar-x me-1"></i>Application Deadline</div>
+                        <div class="value text-danger">{{ drive.deadline|date:"F d, Y" }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Description -->
+            <div class="detail-card bg-white p-4 mb-4">
+                <h5 class="section-heading"><i class="bi bi-file-text text-primary me-2"></i>Job Description & Requirements</h5>
+                <div class="text-secondary lh-lg" style="font-size: 15px; white-space: pre-line;">{{ drive.description }}</div>
+            </div>
+
+            <!-- About the Company -->
+            <div class="detail-card bg-white p-4">
+                <h5 class="section-heading"><i class="bi bi-building-check text-info me-2"></i>About {{ drive.company.name }}</h5>
+
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="rounded-3 bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold" style="width: 52px; height: 52px; font-size: 22px;">
+                        {% if drive.company.logo %}
+                            <img src="{{ drive.company.logo.url }}" alt="{{ drive.company.name }}" class="img-fluid rounded-3" style="max-width: 44px; max-height: 44px; object-fit: contain;">
+                        {% else %}
+                            {{ drive.company.name|first|upper }}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h6 class="fw-bold mb-0">{{ drive.company.name }}</h6>
+                        {% if drive.company.location %}
+                        <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ drive.company.location }}</small>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if drive.company.description %}
+                <p class="text-muted lh-lg mb-3" style="font-size: 14.5px;">{{ drive.company.description }}</p>
+                {% endif %}
+
+                <div class="d-flex flex-wrap gap-2">
+                    {% if drive.company.website %}
+                        <a href="{{ drive.company.website }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                            <i class="bi bi-globe me-1"></i> Company Website
+                        </a>
+                    {% endif %}
+                    {% if drive.company.email %}
+                        <a href="mailto:{{ drive.company.email }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                            <i class="bi bi-envelope me-1"></i> {{ drive.company.email }}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right: Apply Sidebar -->
+        <div class="col-lg-4">
+            <div class="apply-sticky">
+
+                <!-- Apply Now Card -->
+                <div class="detail-card bg-white p-4 mb-4">
+                    <div class="text-center mb-4">
+                        <div class="fw-bold fs-4 text-success mb-1">₹{{ drive.package }} LPA</div>
+                        <div class="text-muted small">Competitive Package</div>
+                    </div>
+
+                    {% if already_applied %}
+                        <div class="alert alert-success text-center rounded-4 border-0 py-3">
+                            <i class="bi bi-check-circle-fill fs-3 d-block mb-1 text-success"></i>
+                            <strong>Application Submitted!</strong><br>
+                            <small class="text-muted">We'll notify you of updates via notifications.</small>
+                        </div>
+                        <a href="{% url 'student_applications' %}" class="btn btn-outline-primary rounded-pill w-100 mt-2">
+                            <i class="bi bi-eye me-1"></i> View My Applications
+                        </a>
+
+                    {% elif not is_eligible %}
+                        <div class="alert alert-danger text-center rounded-4 border-0 py-3">
+                            <i class="bi bi-x-circle-fill fs-3 d-block mb-1"></i>
+                            <strong>Not Eligible</strong><br>
+                            <small>Your CGPA does not meet the minimum cutoff.</small>
+                        </div>
+
+                    {% else %}
+                        <a href="{% url 'apply_drive' drive.id %}" class="btn btn-primary rounded-pill w-100 py-3 fw-bold fs-6 shadow-sm">
+                            <i class="bi bi-send-check me-2"></i>Apply for This Role
+                        </a>
+                        <p class="text-center text-muted small mt-2 mb-0">Your profile & resume will be shared with the recruiter.</p>
+                    {% endif %}
+
+                    <hr class="my-4">
+
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted"><i class="bi bi-people me-1"></i>Total Applicants</small>
+                            <strong class="text-dark">{{ total_applicants }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Last Date</small>
+                            <strong class="text-danger">{{ drive.deadline|date:"M d, Y" }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>Work Location</small>
+                            <strong class="text-dark">{{ drive.location }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Share Card -->
+                <div class="detail-card bg-white p-4">
+                    <h6 class="fw-bold mb-3"><i class="bi bi-share me-2 text-primary"></i>Share this Drive</h6>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <a href="https://wa.me/?text=Check out this drive: {{ drive.job_role }} at {{ drive.company.name }}" target="_blank" class="btn btn-success rounded-circle p-2" style="width: 40px; height: 40px;" title="Share on WhatsApp">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" target="_blank" class="btn btn-primary rounded-circle p-2" style="width: 40px; height: 40px;" title="Share on LinkedIn">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                        <button onclick="navigator.clipboard.writeText(window.location.href); this.innerHTML='<i class=\'bi bi-check-lg\'></i>'; setTimeout(()=>this.innerHTML='<i class=\'bi bi-link-45deg\'></i>',2000)" class="btn btn-outline-secondary rounded-circle p-2" style="width: 40px; height: 40px;" title="Copy Link">
+                            <i class="bi bi-link-45deg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Back Link -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'placement_drives' %}" class="btn btn-light rounded-pill px-4 text-muted">
+                        <i class="bi bi-arrow-left me-1"></i> Back to All Drives
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

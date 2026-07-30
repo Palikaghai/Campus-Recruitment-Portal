@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results for "{{ query }}"{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h3 class="fw-bold mb-1"><i class="bi bi-search text-primary me-2"></i>Global Search</h3>
+        <p class="text-muted small mb-0">Search results matching "<strong>{{ query }}</strong>"</p>
+    </div>
+
+    <!-- Placement Drives Search Results -->
+    <div class="mb-5">
+        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-briefcase text-primary me-2"></i>Placement Drives ({{ drives.count }})</h5>
+        {% if drives %}
+        <div class="row g-4">
+            {% for drive in drives %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100 bg-white p-4">
+                    <h5 class="fw-bold mb-1 text-dark">{{ drive.job_role }}</h5>
+                    <small class="text-muted d-block mb-2">{{ drive.company.name }} • {{ drive.location }}</small>
+                    <span class="badge bg-success-subtle text-success rounded-pill px-3 py-1 mb-3">₹{{ drive.package }} LPA</span>
+                    <p class="text-muted small flex-grow-1">{{ drive.description|truncatechars:100 }}</p>
+                    <a href="{% url 'placement_drives' %}" class="btn btn-sm btn-outline-primary rounded-pill mt-auto">View Drive</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted small">No placement drives matched your search term.</p>
+        {% endif %}
+    </div>
+
+    <!-- Companies Search Results -->
+    <div class="mb-5">
+        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-building text-info me-2"></i>Recruiting Companies ({{ companies.count }})</h5>
+        {% if companies %}
+        <div class="row g-4">
+            {% for company in companies %}
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+                    <h5 class="fw-bold text-dark mb-1">{{ company.name }}</h5>
+                    <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ company.location|default:"Global" }}</small>
+                    <p class="text-muted small mt-2 mb-0">{{ company.description|truncatechars:90 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted small">No corporate companies matched your search term.</p>
+        {% endif %}
+    </div>
+
+    <!-- Students Search Results (Visible to Recruiters & Officers) -->
+    {% if user.role in "recruiter,placement_officer" %}
+    <div>
+        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-mortarboard text-success me-2"></i>Students Directory ({{ students.count }})</h5>
+        {% if students %}
+        <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Student</th>
+                            <th>Reg No</th>
+                            <th>Department</th>
+                            <th>CGPA</th>
+                            <th>Skills</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td class="ps-4 fw-bold text-dark">{{ student.user.get_full_name|default:student.user.username }}</td>
+                            <td>{{ student.registration_number }}</td>
+                            <td>{{ student.department }}</td>
+                            <td><span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1">{{ student.cgpa }}</span></td>
+                            <td><small class="text-muted">{{ student.skills|truncatechars:40 }}</small></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <p class="text-muted small">No students matched your search query.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

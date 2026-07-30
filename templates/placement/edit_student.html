@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Student Details | Placement Officer{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center mb-4">
+                <a href="{% url 'placement_manage_students' %}" class="btn btn-light rounded-circle me-3">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h3 class="fw-bold mb-0">Edit Student Record</h3>
+                    <p class="text-muted small mb-0">{{ student.user.get_full_name }} ({{ student.registration_number }})</p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">First Name *</label>
+                            {{ form.first_name }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Last Name *</label>
+                            {{ form.last_name }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email Address *</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Registration Number *</label>
+                            {{ form.registration_number }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Department *</label>
+                            {{ form.department }}
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Batch Year *</label>
+                            {{ form.batch }}
+                        </div>
+
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">CGPA *</label>
+                            {{ form.cgpa }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Technical Skills</label>
+                            {{ form.skills }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Update Resume Document</label>
+                            {{ form.resume }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                        <a href="{% url 'placement_manage_students' %}" class="btn btn-light rounded-pill px-4">Cancel</a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-semibold">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,111 +3,56 @@
 {% block title %}Placement Drives{% endblock %}
 
 {% block content %}
-
 <div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-briefcase-fill text-primary me-2"></i>Available Placement Drives</h2>
+            <p class="text-muted mb-0">Browse active opportunities and view full details in a new tab.</p>
+        </div>
+    </div>
 
-<h2 class="fw-bold mb-4">
-💼 Available Placement Drives
-</h2>
+    <div class="row g-4">
+        {% for drive in drives %}
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start gap-3">
+                        <div>
+                            <h4 class="fw-bold mb-1">{{ drive.company.name }}</h4>
+                            <a href="{% url 'drive_detail' drive.id %}" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-semibold text-primary">
+                                <i class="bi bi-arrow-up-right-circle me-1"></i>{{ drive.job_role }}
+                            </a>
+                        </div>
+                        {% if drive.company.logo %}
+                            <img src="{{ drive.company.logo.url }}" alt="{{ drive.company.name }}" class="rounded-3" width="60" height="60" style="object-fit:contain;">
+                        {% endif %}
+                    </div>
 
-<div class="row">
+                    <div class="mt-3 small text-muted">
+                        <div class="mb-2"><i class="bi bi-geo-alt me-2"></i>{{ drive.location }}</div>
+                        <div class="mb-2"><i class="bi bi-currency-rupee me-2"></i>₹{{ drive.package }} LPA</div>
+                        <div class="mb-2"><i class="bi bi-mortarboard me-2"></i>CGPA ≥ {{ drive.eligibility_cgpa }}</div>
+                        <div><i class="bi bi-calendar3 me-2"></i>Deadline: {{ drive.deadline }}</div>
+                    </div>
 
-{% for drive in drives %}
+                    <p class="mt-3 mb-4">{{ drive.description|truncatewords:25 }}</p>
 
-<div class="col-lg-6 mb-4">
-
-<div class="card shadow border-0 rounded-4 h-100">
-
-<div class="card-body">
-
-<div class="d-flex justify-content-between">
-
-<div>
-
-<h4>{{ drive.company.name }}</h4>
-
-<h6 class="text-primary">
-
-{{ drive.job_role }}
-
-</h6>
-
+                    <div class="mt-auto d-flex gap-2 flex-wrap">
+                        <a href="{% url 'drive_detail' drive.id %}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="bi bi-eye me-1"></i>View Details
+                        </a>
+                        <a href="{% url 'apply_drive' drive.id %}" class="btn btn-primary rounded-pill px-4">
+                            <i class="bi bi-send-check me-1"></i>Apply Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info rounded-4">No placement drives available.</div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-
-{% if drive.company.logo %}
-<img
-src="{{ drive.company.logo.url }}"
-width="60">
-{% endif %}
-
-</div>
-
-<hr>
-
-<p>
-
-📍 <strong>Location:</strong>
-
-{{ drive.location }}
-
-</p>
-
-<p>
-
-💰 <strong>Package:</strong>
-
-₹{{ drive.package }} LPA
-
-</p>
-
-<p>
-
-🎓 <strong>Eligibility:</strong>
-
-CGPA ≥ {{ drive.eligibility_cgpa }}
-
-</p>
-
-<p>
-
-📅 <strong>Deadline:</strong>
-
-{{ drive.deadline }}
-
-</p>
-
-<p>
-
-{{ drive.description|truncatewords:25 }}
-
-</p>
-
-<a
-href="{% url 'apply_drive' drive.id %}"
-class="btn btn-primary w-100">
-
-Apply Now
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-{% empty %}
-
-<div class="alert alert-info">
-
-No placement drives available.
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
-
 {% endblock %}

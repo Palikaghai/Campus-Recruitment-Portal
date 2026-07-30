@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="mb-4">
+                <h3 class="fw-bold mb-1"><i class="bi bi-gear-fill text-primary me-2"></i>Account & Platform Settings</h3>
+                <p class="text-muted small mb-0">Update email address, change password, and toggle visual preferences</p>
+            </div>
+
+            <!-- Email Update Card -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-envelope me-2 text-primary"></i>Email Address Settings</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="update_email" value="1">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Current Email Address</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-semibold">Update Email</button>
+                </form>
+            </div>
+
+            <!-- Change Password Card -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-shield-lock me-2 text-warning"></i>Security & Password</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="change_password" value="1">
+                    {% for field in password_form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-warning rounded-pill px-4 fw-semibold">Change Password</button>
+                </form>
+            </div>
+
+            <!-- Dark / Light Theme Preference Card -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-palette me-2 text-info"></i>Theme Appearance</h5>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="fw-bold mb-1">Dark Mode Preference</h6>
+                        <small class="text-muted">Switch between crisp Light Theme and sleek Dark Theme</small>
+                    </div>
+                    <button id="themeToggleBtn" onclick="toggleThemeSetting()" class="btn btn-outline-dark rounded-pill px-4">
+                        <i class="bi bi-moon-stars me-1"></i> Toggle Dark Mode
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggleThemeSetting() {
+    const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('themePreference', newTheme);
+}
+</script>
+{% endblock %}

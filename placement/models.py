@@ -44,6 +44,16 @@ class Company(models.Model):
         null=True
     )
 
+    recruiter = models.ForeignKey(
+        "recruiters.RecruiterProfile",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="companies"
+    )
+
+    is_approved = models.BooleanField(default=True)
+
     def __str__(self):
         return self.name
 
@@ -83,6 +93,14 @@ class PlacementDrive(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True
+    )
+
+    recruiter = models.ForeignKey(
+        "recruiters.RecruiterProfile",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="created_drives"
     )
 
     created_at = models.DateTimeField(default=timezone.now)

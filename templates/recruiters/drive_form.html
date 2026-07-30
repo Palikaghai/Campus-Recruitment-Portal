@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} | Recruiter{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="d-flex align-items-center mb-4">
+                <a href="{% url 'recruiter_manage_drives' %}" class="btn btn-light rounded-circle me-3">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h3 class="fw-bold mb-0">{{ title }}</h3>
+                    <p class="text-muted small mb-0">Specify job role details, package, eligibility criteria, and deadline</p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Company</label>
+                            {{ form.company }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Job Role / Designation *</label>
+                            {{ form.job_role }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Package (LPA) *</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">₹</span>
+                                {{ form.package }}
+                                <span class="input-group-text bg-light">LPA</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Job Location *</label>
+                            {{ form.location }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Eligibility CGPA Cutoff *</label>
+                            {{ form.eligibility_cgpa }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Application Deadline *</label>
+                            {{ form.deadline }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Job Description & Requirements *</label>
+                            {{ form.description }}
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-check form-switch mt-2">
+                                {{ form.is_active }}
+                                <label class="form-check-label fw-semibold" for="{{ form.is_active.id_for_label }}">
+                                    Active Drive (Visible to Students for Application)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                        <a href="{% url 'recruiter_manage_drives' %}" class="btn btn-light rounded-pill px-4">Cancel</a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-semibold">
+                            <i class="bi bi-check-circle me-1"></i> Save Drive
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

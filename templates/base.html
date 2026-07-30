@@ -1,403 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Campus Recruitment Portal — connecting students, recruiters and placement officers on one platform.">
 
 <title>{% block title %}{% endblock %} | Campus Recruitment Portal</title>
 
+<!-- Theme initialization script -->
+<script>
+    (function() {
+        const savedTheme = localStorage.getItem('themePreference') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    })();
+</script>
+
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-:root{
-    --brand-blue:#0d6efd;
-    --brand-blue-light:#3d8bfd;
-    --brand-dark:#0b1320;
-    --text-muted:#5c6b82;
-    --bg-soft:#f5f7fb;
-    --radius-lg:20px;
-    --radius-md:14px;
+:root {
+    --brand-blue: #0d6efd;
+    --brand-blue-light: #3d8bfd;
+    --brand-dark: #0b1320;
+    --text-muted: #5c6b82;
+    --bg-soft: #f5f7fb;
+    --surface: #ffffff;
+    --surface-2: #f8f9fc;
+    --border-color: #e5eaf2;
+    --text-color: #142033;
+    --radius-lg: 20px;
+    --radius-md: 14px;
 }
 
-body{
-    font-family:'Poppins',sans-serif;
-    background:var(--bg-soft);
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
+[data-bs-theme="dark"] {
+    --bg-soft: #0f172a;
+    --surface: #152030;
+    --surface-2: #1e2a3a;
+    --border-color: #2d3a4e;
+    --text-color: #e2e8f0;
 }
 
-main{
-    flex:1;
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-soft);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ---- Navbar ---- */
-
-.navbar{
-    background:linear-gradient(90deg,var(--brand-blue),var(--brand-blue-light));
-    box-shadow:0 4px 20px rgba(0,0,0,.12);
-    padding:14px 0;
+main {
+    flex: 1;
 }
 
-.navbar-brand{
-    font-size:22px;
-    font-weight:700;
-    color:#fff!important;
-    display:flex;
-    align-items:center;
-    gap:8px;
+/* General UI */
+a { color: var(--brand-blue); }
+.card, .list-group-item, .table, .form-control, .form-select, .alert {
+    border-color: var(--border-color);
+}
+.card {
+    background: var(--surface);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-.nav-link{
-    color:rgba(255,255,255,.9)!important;
-    font-weight:500;
-    margin-left:6px;
-    padding:8px 14px!important;
-    border-radius:30px;
-    transition:.25s;
-    position:relative;
+.form-control, .form-select, .form-control:focus, .form-select:focus {
+    background: var(--surface-2);
+    color: var(--text-color);
+    border-color: var(--border-color);
 }
 
-.nav-link:hover{
-    background:rgba(255,255,255,.15);
-    color:#fff!important;
+.text-muted { color: var(--text-muted) !important; }
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(90deg, var(--brand-blue), var(--brand-blue-light));
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .12);
+    padding: 12px 0;
 }
 
-.nav-link.active{
-    background:rgba(255,255,255,.22);
-    color:#fff!important;
-    font-weight:600;
+.navbar-brand {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.btn-login{
-    border:2px solid rgba(255,255,255,.85);
-    color:#fff;
-    border-radius:30px;
-    padding:7px 20px;
-    margin-left:10px;
-    font-weight:500;
-    transition:.25s;
+.nav-link {
+    color: rgba(255, 255, 255, .9) !important;
+    font-weight: 500;
+    margin-left: 4px;
+    padding: 8px 14px !important;
+    border-radius: 30px;
+    transition: .25s;
 }
 
-.btn-login:hover{
-    background:#fff;
-    color:var(--brand-blue);
+.nav-link:hover {
+    background: rgba(255, 255, 255, .15);
+    color: #fff !important;
 }
 
-.btn-register{
-    background:#fff;
-    color:var(--brand-blue);
-    border-radius:30px;
-    padding:7px 20px;
-    margin-left:10px;
-    font-weight:600;
-    transition:.25s;
+.nav-link.active {
+    background: rgba(255, 255, 255, .22);
+    color: #fff !important;
+    font-weight: 600;
 }
 
-.btn-register:hover{
-    transform:scale(1.05);
-    color:var(--brand-blue);
+.nav-search-input {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 14px;
 }
 
-.navbar-toggler{
-    border:none;
-    padding:6px 10px;
+.nav-search-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+.nav-search-input:focus { background: rgba(255, 255, 255, 0.3); color: #fff; box-shadow: none; border-color: #fff; }
+
+.user-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, .15);
+    border: 1px solid rgba(255, 255, 255, .3);
+    color: #fff;
+    border-radius: 30px;
+    padding: 5px 14px 5px 5px;
+    font-weight: 500;
+    font-size: 14.5px;
 }
 
-.navbar-toggler:focus{
-    box-shadow:none;
+.user-avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--brand-blue);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
 }
 
-.user-menu-toggle{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    background:rgba(255,255,255,.15);
-    border:1px solid rgba(255,255,255,.3);
-    color:#fff;
-    border-radius:30px;
-    padding:6px 16px 6px 6px;
-    font-weight:500;
-    font-size:14.5px;
+.dropdown-menu {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.15);
+    padding: 10px;
+    background: var(--surface);
 }
 
-.user-menu-toggle:hover{
-    background:rgba(255,255,255,.25);
-    color:#fff;
+.dropdown-item {
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
 }
 
-.user-avatar-circle{
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    background:#fff;
-    color:var(--brand-blue);
-    font-weight:700;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:13px;
-}
+.btn-login { border: 2px solid rgba(255, 255, 255, .85); color: #fff; border-radius: 30px; padding: 6px 18px; font-weight: 500; }
+.btn-login:hover { background: #fff; color: var(--brand-blue); }
+.btn-register { background: #fff; color: var(--brand-blue); border-radius: 30px; padding: 6px 18px; font-weight: 600; margin-left: 6px; }
 
-.user-menu-toggle::after{
-    display:none;
-}
+.hover-lift { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important; }
 
-.dropdown-menu{
-    border:none;
-    border-radius:14px;
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
-    padding:8px;
-    margin-top:10px!important;
-}
-
-.dropdown-item{
-    border-radius:10px;
-    padding:9px 14px;
-    font-size:14px;
-    font-weight:500;
-}
-
-.dropdown-item:hover{
-    background:var(--bg-soft);
-    color:var(--brand-blue);
-}
-
-.dropdown-item.text-danger:hover{
-    background:#fdeeee;
-    color:#dc3545!important;
-}
-
-@media (max-width:991px){
-    .navbar-collapse{
-        background:var(--brand-blue);
-        border-radius:14px;
-        padding:14px;
-        margin-top:10px;
-    }
-    .btn-login, .btn-register{
-        display:inline-block;
-        margin:8px 4px 0 0;
-    }
-}
-
-/* ---- Shared page elements (used across templates) ---- */
-
-.section-title{
-    font-size:38px;
-    font-weight:700;
-    margin-bottom:20px;
-}
-
-.card{
-    border:none;
-    border-radius:18px;
-    transition:.35s;
-}
-
-.stats{
-    background:#fff;
-    border-radius:var(--radius-lg);
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-.hero-btn{
-    padding:14px 30px;
-    border-radius:40px;
-    font-weight:600;
-}
-
-/* ---- Global alert / message styling ---- */
-
-.message-container{
-    max-width:1100px;
-    margin:18px auto 0;
-    padding:0 16px;
-}
-
-.message-container .alert{
-    border:none;
-    border-radius:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,.06);
-}
-
-/* ---- Footer ---- */
-
-footer{
-    background:var(--brand-dark);
-    color:#fff;
-    padding:50px 0 30px;
-    margin-top:60px;
-}
-
-footer h4{
-    font-weight:700;
-}
-
-footer h5{
-    font-weight:600;
-    font-size:16px;
-    margin-bottom:16px;
-}
-
-footer .footer-link{
-    color:rgba(255,255,255,.7);
-    text-decoration:none;
-    display:block;
-    margin-bottom:10px;
-    font-size:14.5px;
-    transition:.2s;
-}
-
-footer .footer-link:hover{
-    color:#fff;
-    padding-left:4px;
-}
-
-footer .social-icon{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:rgba(255,255,255,.08);
-    color:#fff;
-    margin-right:10px;
-    font-size:17px;
-    transition:.25s;
-}
-
-footer .social-icon:hover{
-    background:var(--brand-blue);
-    transform:translateY(-3px);
-}
-
-footer p{
-    color:rgba(255,255,255,.65);
-    font-size:14.5px;
-}
-
-footer hr{
-    border-color:rgba(255,255,255,.1);
-    margin:30px 0 20px;
-}
-
-footer .footer-bottom{
-    color:rgba(255,255,255,.5);
-    font-size:13.5px;
-}
-
+/* Footer */
+footer { background: var(--brand-dark); color: #fff; padding: 50px 0 30px; margin-top: 60px; }
+footer .footer-link { color: rgba(255, 255, 255, .7); text-decoration: none; display: block; margin-bottom: 10px; font-size: 14.5px; transition: .2s; }
+footer .footer-link:hover { color: #fff; padding-left: 4px; }
 </style>
 
 {% block extra_head %}{% endblock %}
-
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-lg sticky-top">
-
 <div class="container">
 
-<a class="navbar-brand" href="/">🎓 Campus Portal</a>
+    <a class="navbar-brand" href="/"><i class="bi bi-mortarboard-fill"></i> Campus Portal</a>
 
-<button class="navbar-toggler bg-white" data-bs-toggle="collapse"
-data-bs-target="#nav" aria-label="Toggle navigation">
+    <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-<span class="navbar-toggler-icon"></span>
+    <div class="collapse navbar-collapse" id="nav">
 
-</button>
+        <!-- Global Search Bar in Navbar -->
+        <form action="{% url 'global_search' %}" method="GET" class="d-flex mx-auto my-2 my-lg-0" style="max-width: 320px; width: 100%;">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control nav-search-input" placeholder="Search drives, companies..." value="{{ request.GET.q }}">
+                <button class="btn btn-outline-light rounded-end-pill px-3" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
 
-<div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
 
-<ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="/">Home</a>
+            </li>
 
-<li class="nav-item">
-<a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="/">Home</a>
-</li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'placement_drives' %}">Drives</a>
+            </li>
 
-<li class="nav-item">
-<a class="nav-link" href="#">Placement Drives</a>
-</li>
+            {% if user.is_authenticated %}
+                <!-- Notifications Bell -->
+                <li class="nav-item me-2">
+                    <a class="nav-link position-relative" href="{% url 'notifications_list' %}" title="Notifications">
+                        <i class="bi bi-bell fs-5"></i>
+                        {% if user.notifications.filter.is_read.count > 0 or user.notifications.count > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                        {% endif %}
+                    </a>
+                </li>
 
-<li class="nav-item">
-<a class="nav-link" href="#">Companies</a>
-</li>
+                <!-- User Role Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link user-menu-toggle dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <span class="user-avatar-circle">{{ user.first_name|default:user.username|first|upper }}</span>
+                        <span>{{ user.first_name|default:user.username }}</span>
+                    </a>
 
-<li class="nav-item">
-<a class="nav-link" href="#">About</a>
-</li>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
 
-{% if user.is_authenticated %}
+                        {% if user.role == 'student' %}
+                            <li><a class="dropdown-item" href="{% url 'student_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'student_profile' %}"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'student_applications' %}"><i class="bi bi-send me-2"></i>My Applications</a></li>
+                            <li><a class="dropdown-item" href="{% url 'student_interviews' %}"><i class="bi bi-calendar-event me-2"></i>Interviews</a></li>
+                            <li><a class="dropdown-item" href="{% url 'student_resume' %}"><i class="bi bi-file-earmark-pdf me-2"></i>Resume</a></li>
+                        {% elif user.role == 'recruiter' %}
+                            <li><a class="dropdown-item" href="{% url 'recruiter_dashboard' %}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'recruiter_company_profile' %}"><i class="bi bi-building me-2"></i>Company Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'recruiter_create_drive' %}"><i class="bi bi-plus-circle me-2"></i>Post Drive</a></li>
+                            <li><a class="dropdown-item" href="{% url 'recruiter_manage_drives' %}"><i class="bi bi-kanban me-2"></i>Manage Drives</a></li>
+                        {% elif user.role == 'placement_officer' or user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'placement_dashboard' %}"><i class="bi bi-shield-check me-2"></i>Officer Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'placement_manage_students' %}"><i class="bi bi-mortarboard me-2"></i>Student Management</a></li>
+                            <li><a class="dropdown-item" href="{% url 'placement_manage_recruiters' %}"><i class="bi bi-building-gear me-2"></i>Recruiters & Companies</a></li>
+                            <li><a class="dropdown-item" href="{% url 'placement_manage_drives' %}"><i class="bi bi-journal-text me-2"></i>Campus Drives</a></li>
+                            <li><a class="dropdown-item" href="{% url 'placement_reports' %}"><i class="bi bi-pie-chart me-2"></i>Analytics & Reports</a></li>
+                        {% endif %}
 
-<li class="nav-item dropdown">
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'user_settings' %}"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-login" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-register" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
 
-<a class="nav-link user-menu-toggle dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-<span class="user-avatar-circle">{{ user.first_name|default:user.username|first|upper }}</span>
-{{ user.first_name|default:user.username }}
-</a>
+            <!-- Dark Mode Toggle Icon -->
+            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                <button onclick="toggleTheme()" class="btn btn-sm btn-outline-light rounded-circle p-2" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle theme">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
+            </li>
 
-<ul class="dropdown-menu dropdown-menu-end">
+        </ul>
 
-<li>
-<a class="dropdown-item" href="{% url 'student_dashboard' %}">
-<i class="bi bi-speedometer2 me-2"></i>Dashboard
-</a>
-</li>
-
-<li>
-<a class="dropdown-item" href="#">
-<i class="bi bi-person me-2"></i>My Profile
-</a>
-</li>
-
-<li><hr class="dropdown-divider"></li>
-
-<li>
-<a class="dropdown-item text-danger" href="{% url 'logout' %}">
-<i class="bi bi-box-arrow-right me-2"></i>Logout
-</a>
-</li>
-
-</ul>
-
-</li>
-
-{% else %}
-
-<li class="nav-item">
-<a class="btn btn-login" href="{% url 'login' %}">
-Login
-</a>
-</li>
-
-<li class="nav-item">
-<a class="btn btn-register" href="{% url 'register' %}">
-Register
-</a>
-</li>
-
-{% endif %}
-
-</ul>
+    </div>
 
 </div>
-
-</div>
-
 </nav>
 
 {% if messages %}
@@ -405,7 +288,7 @@ Register
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {% endfor %}
 </div>
@@ -417,58 +300,61 @@ Register
 </main>
 
 <footer>
-
 <div class="container">
-
-<div class="row">
-
-<div class="col-md-6 mb-4 mb-md-0">
-
-<h4>🎓 Campus Recruitment Portal</h4>
-
-<p>
-Connecting students with the world's best companies through one smart platform.
-</p>
-
+    <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <h4>Campus Recruitment Portal</h4>
+            <p>Connecting students with the world's best companies through one unified recruitment platform.</p>
+        </div>
+        <div class="col-md-3 mb-4 mb-md-0">
+            <h5>Quick Links</h5>
+            <a href="/" class="footer-link">Home</a>
+            <a href="{% url 'placement_drives' %}" class="footer-link">Placement Drives</a>
+            <a href="{% url 'notifications_list' %}" class="footer-link">Notifications</a>
+            <a href="{% url 'user_settings' %}" class="footer-link">Settings</a>
+        </div>
+        <div class="col-md-3">
+            <h5>Connect</h5>
+            <div>
+                <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <p class="footer-bottom mb-0">© 2026 Campus Recruitment Portal. All Rights Reserved.</p>
+        <p class="footer-bottom mb-0">Built with Django 5 & Bootstrap 5</p>
+    </div>
 </div>
-
-<div class="col-md-3 mb-4 mb-md-0">
-
-<h5>Quick Links</h5>
-
-<a href="/" class="footer-link">Home</a>
-<a href="#" class="footer-link">Placement Drives</a>
-<a href="#" class="footer-link">Companies</a>
-<a href="#" class="footer-link">Contact</a>
-
-</div>
-
-<div class="col-md-3">
-
-<h5>Follow Us</h5>
-
-<div>
-<a href="#" class="social-icon" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-<a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-<a href="#" class="social-icon" aria-label="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
-</div>
-
-</div>
-
-</div>
-
-<hr>
-
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-<p class="footer-bottom mb-0">© 2026 Campus Recruitment Portal. All Rights Reserved.</p>
-<p class="footer-bottom mb-0">Built for LPU Capstone Project</p>
-</div>
-
-</div>
-
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function updateThemeIcon(theme) {
+    const button = document.getElementById('themeToggleBtn');
+    if (!button) return;
+    const icon = button.querySelector('i');
+    if (icon) {
+        icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-stars';
+    }
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('themePreference', newTheme);
+    updateThemeIcon(newTheme);
+}
+
+(function() {
+    const savedTheme = localStorage.getItem('themePreference') || 'light';
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+})();
+</script>
 
 {% block extra_scripts %}{% endblock %}
 

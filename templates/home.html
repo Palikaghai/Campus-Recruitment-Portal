@@ -6,40 +6,16 @@
 
 <style>
 
-    /* ---- Page-specific styling, layered on top of base.html ---- */
-
     .hero-section{
         background:linear-gradient(120deg,#0d6efd 0%,#3d8bfd 55%,#6fb1ff 100%);
         position:relative;
         overflow:hidden;
-        padding:90px 0 110px;
-    }
-
-    .hero-section::before{
-        content:"";
-        position:absolute;
-        top:-120px;
-        right:-120px;
-        width:420px;
-        height:420px;
-        background:rgba(255,255,255,.08);
-        border-radius:50%;
-    }
-
-    .hero-section::after{
-        content:"";
-        position:absolute;
-        bottom:-160px;
-        left:-100px;
-        width:360px;
-        height:360px;
-        background:rgba(255,255,255,.06);
-        border-radius:50%;
+        padding:80px 0 100px;
     }
 
     .hero-badge{
         display:inline-block;
-        background:rgba(255,255,255,.15);
+        background:rgba(255,255,255,.18);
         border:1px solid rgba(255,255,255,.35);
         color:#fff;
         font-size:13px;
@@ -57,7 +33,7 @@
 
     .hero-section .lead{
         color:rgba(255,255,255,.92);
-        font-size:19px;
+        font-size:18px;
     }
 
     .hero-btn-primary{
@@ -65,6 +41,8 @@
         color:#0d6efd;
         font-weight:600;
         border:none;
+        padding: 12px 28px;
+        border-radius: 30px;
     }
 
     .hero-btn-primary:hover{
@@ -78,23 +56,12 @@
         color:#fff;
         font-weight:600;
         background:transparent;
+        padding: 12px 28px;
+        border-radius: 30px;
     }
-
-    .hero-btn-outline:hover{
-        background:rgba(255,255,255,.15);
-        color:#fff;
-        transform:translateY(-3px);
-    }
-
-    .hero-illustration{
-        max-width:460px;
-        width:100%;
-    }
-
-    /* ---- Stats ---- */
 
     .stats-section{
-        margin-top:-55px;
+        margin-top:-45px;
         position:relative;
         z-index:2;
     }
@@ -103,13 +70,13 @@
         background:#fff;
         border-radius:20px;
         box-shadow:0 15px 40px rgba(13,110,253,.12);
-        padding:40px 20px;
+        padding:35px 20px;
     }
 
     .stat-item h2{
         font-weight:700;
         color:#0d6efd;
-        font-size:34px;
+        font-size:32px;
         margin-bottom:4px;
     }
 
@@ -117,43 +84,18 @@
         color:#5c6b82;
         font-weight:500;
         margin-bottom:0;
-        font-size:14.5px;
+        font-size:13.5px;
         text-transform:uppercase;
-        letter-spacing:.5px;
     }
 
     .stat-divider{
         border-left:1px solid #e9ecf3;
     }
 
-    /* ---- Section headers ---- */
-
-    .section-eyebrow{
-        color:#0d6efd;
-        font-weight:600;
-        letter-spacing:1px;
-        text-transform:uppercase;
-        font-size:13px;
-    }
-
-    .section-title{
-        font-size:34px;
-        font-weight:700;
-        color:#161b26;
-    }
-
-    .section-subtitle{
-        color:#5c6b82;
-        max-width:560px;
-        margin:0 auto;
-    }
-
-    /* ---- Feature cards ---- */
-
     .feature-card{
         background:#fff;
         border-radius:18px;
-        padding:36px 26px;
+        padding:30px 24px;
         text-align:center;
         box-shadow:0 6px 20px rgba(20,30,60,.06);
         transition:.35s;
@@ -161,19 +103,19 @@
     }
 
     .feature-card:hover{
-        transform:translateY(-8px);
-        box-shadow:0 20px 40px rgba(13,110,253,.15);
+        transform:translateY(-6px);
+        box-shadow:0 18px 36px rgba(13,110,253,.14);
     }
 
     .feature-icon{
-        width:64px;
-        height:64px;
+        width:60px;
+        height:60px;
         border-radius:16px;
         display:flex;
         align-items:center;
         justify-content:center;
-        margin:0 auto 20px;
-        font-size:28px;
+        margin:0 auto 16px;
+        font-size:26px;
         color:#fff;
     }
 
@@ -182,302 +124,191 @@
     .icon-teal{ background:linear-gradient(135deg,#0dbfa8,#3ddad0); }
     .icon-orange{ background:linear-gradient(135deg,#fd7e14,#ffb35c); }
 
-    .feature-card h5{
-        font-weight:600;
-        margin-bottom:10px;
-    }
-
-    .feature-card p{
-        color:#5c6b82;
-        font-size:14.5px;
-        margin-bottom:0;
-    }
-
-    /* ---- How it works ---- */
-
-    .how-it-works{
-        background:#f5f7fb;
-    }
-
-    .step-item{
-        position:relative;
-        padding-top:10px;
-    }
-
-    .step-circle{
-        width:64px;
-        height:64px;
-        border-radius:50%;
-        background:#fff;
-        border:2px solid #0d6efd;
-        color:#0d6efd;
-        font-weight:700;
-        font-size:22px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        margin:0 auto 18px;
-        position:relative;
-        z-index:2;
-    }
-
-    .step-line{
-        position:absolute;
-        top:42px;
-        left:50%;
-        width:100%;
-        height:2px;
-        background:repeating-linear-gradient(90deg,#c9d6f0 0,#c9d6f0 6px,transparent 6px,transparent 12px);
-        z-index:1;
-    }
-
-    .step-item:last-child .step-line{
-        display:none;
-    }
-
-    .step-item h5{
-        font-weight:600;
-        font-size:16px;
-    }
-
-    .step-item p{
-        color:#5c6b82;
-        font-size:13.5px;
-    }
-
-    /* ---- CTA ---- */
-
     .cta-section{
         background:linear-gradient(120deg,#0b1320,#1a2740);
         border-radius:24px;
-        padding:55px 40px;
+        padding:50px 30px;
         color:#fff;
-    }
-
-    .cta-section h2{
-        font-weight:700;
-    }
-
-    .cta-section p{
-        color:rgba(255,255,255,.75);
-    }
-
-    @media (max-width:767px){
-        .stat-divider{ border-left:none; border-top:1px solid #e9ecf3; margin-top:20px; padding-top:20px; }
-        .step-line{ display:none; }
     }
 
 </style>
 
 <!-- Hero -->
 <section class="hero-section text-white">
-    <div class="container position-relative">
+    <div class="container">
         <div class="row align-items-center">
-
             <div class="col-lg-6">
-
                 <span class="hero-badge">
-                    <i class="bi bi-stars me-1"></i> Trusted by 200+ recruiters
+                    <i class="bi bi-stars me-1"></i> Official Campus Recruitment Portal
                 </span>
-
                 <h1 class="display-4">
                     Launch Your Career with Confidence
                 </h1>
-
                 <p class="lead mt-3">
-                    Connect students, recruiters and placement officers on one
-                    modern, streamlined recruitment platform &mdash; from application
-                    to offer letter.
+                    Connect students, corporate recruiters, and placement officers on one smart recruitment ecosystem — from job posting to offer letters.
                 </p>
 
                 <div class="mt-4">
-
-                    <a href="{% url 'register' %}"
-                       class="btn hero-btn hero-btn-primary btn-lg me-3">
-                        Get Started <i class="bi bi-arrow-right ms-1"></i>
-                    </a>
-
-                    <a href="{% url 'login' %}"
-                       class="btn hero-btn hero-btn-outline btn-lg">
-                        Login
-                    </a>
-
+                    {% if user.is_authenticated %}
+                        {% if user.role == 'student' %}
+                            <a href="{% url 'student_dashboard' %}" class="btn hero-btn-primary btn-lg me-3 shadow-sm">
+                                Go to Student Dashboard <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        {% elif user.role == 'recruiter' %}
+                            <a href="{% url 'recruiter_dashboard' %}" class="btn hero-btn-primary btn-lg me-3 shadow-sm">
+                                Go to Recruiter Portal <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'placement_dashboard' %}" class="btn hero-btn-primary btn-lg me-3 shadow-sm">
+                                Go to Officer Portal <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'register' %}" class="btn hero-btn-primary btn-lg me-3 shadow-sm">
+                            Get Started Free <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                        <a href="{% url 'login' %}" class="btn hero-btn-outline btn-lg">
+                            User Login
+                        </a>
+                    {% endif %}
                 </div>
-
             </div>
 
             <div class="col-lg-6 text-center mt-5 mt-lg-0">
-
-                <!-- Inline illustration: no external image dependency -->
-                <svg class="hero-illustration" viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="240" cy="200" r="170" fill="rgba(255,255,255,0.10)"/>
-                    <rect x="120" y="120" width="240" height="160" rx="16" fill="#ffffff"/>
-                    <rect x="120" y="120" width="240" height="34" rx="16" fill="#0d6efd"/>
-                    <circle cx="140" cy="137" r="5" fill="#ffffff"/>
-                    <circle cx="155" cy="137" r="5" fill="#ffffff"/>
-                    <circle cx="170" cy="137" r="5" fill="#ffffff"/>
-                    <rect x="140" y="172" width="100" height="10" rx="5" fill="#dbe6ff"/>
-                    <rect x="140" y="190" width="150" height="10" rx="5" fill="#eef2fb"/>
-                    <rect x="140" y="208" width="130" height="10" rx="5" fill="#eef2fb"/>
-                    <rect x="140" y="234" width="90" height="26" rx="13" fill="#0d6efd"/>
-                    <circle cx="335" cy="150" r="34" fill="#ffb35c"/>
-                    <circle cx="335" cy="140" r="12" fill="#fff"/>
-                    <path d="M315 172c0-15 9-24 20-24s20 9 20 24" fill="#fff"/>
-                    <circle cx="150" cy="300" r="30" fill="#3ddad0"/>
-                    <circle cx="150" cy="291" r="10" fill="#fff"/>
-                    <path d="M133 318c0-13 8-21 17-21s17 8 17 21" fill="#fff"/>
-                    <rect x="200" y="300" width="150" height="14" rx="7" fill="rgba(255,255,255,0.6)"/>
-                    <rect x="200" y="324" width="100" height="14" rx="7" fill="rgba(255,255,255,0.4)"/>
+                <svg class="img-fluid" viewBox="0 0 480 360" style="max-width: 440px;" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="240" cy="180" r="150" fill="rgba(255,255,255,0.12)"/>
+                    <rect x="120" y="100" width="240" height="160" rx="16" fill="#ffffff"/>
+                    <rect x="120" y="100" width="240" height="34" rx="16" fill="#0d6efd"/>
+                    <circle cx="140" cy="117" r="4" fill="#ffffff"/>
+                    <circle cx="152" cy="117" r="4" fill="#ffffff"/>
+                    <circle cx="164" cy="117" r="4" fill="#ffffff"/>
+                    <rect x="140" y="150" width="100" height="10" rx="5" fill="#dbe6ff"/>
+                    <rect x="140" y="170" width="150" height="10" rx="5" fill="#eef2fb"/>
+                    <rect x="140" y="190" width="120" height="10" rx="5" fill="#eef2fb"/>
+                    <rect x="140" y="215" width="90" height="24" rx="12" fill="#0d6efd"/>
+                    <circle cx="330" cy="130" r="30" fill="#ffc107"/>
                 </svg>
-
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- Stats -->
+<!-- Stats Bar -->
 <section class="stats-section">
     <div class="container">
         <div class="stats-card">
             <div class="row text-center">
-
                 <div class="col-6 col-md-3 stat-item">
-                    <h2>5000+</h2>
-                    <p>Students</p>
+                    <h2>{{ total_students|default:"500" }}+</h2>
+                    <p>Registered Students</p>
                 </div>
 
                 <div class="col-6 col-md-3 stat-item stat-divider">
-                    <h2>200+</h2>
-                    <p>Companies</p>
+                    <h2>{{ total_companies|default:"50" }}+</h2>
+                    <p>Hiring Companies</p>
                 </div>
 
                 <div class="col-6 col-md-3 stat-item stat-divider">
-                    <h2>1200+</h2>
-                    <p>Offers</p>
+                    <h2>{{ total_drives|default:"25" }}+</h2>
+                    <p>Active Drives</p>
                 </div>
 
                 <div class="col-6 col-md-3 stat-item stat-divider">
                     <h2>95%</h2>
                     <p>Placement Rate</p>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
 
-<!-- Features -->
+<!-- Featured Drives Section -->
+{% if featured_drives %}
 <section class="py-5 mt-4">
     <div class="container">
-
-        <div class="text-center mb-5">
-            <div class="section-eyebrow mb-2">Platform</div>
-            <h2 class="section-title">Why Choose Our Portal?</h2>
-            <p class="section-subtitle mt-2">
-                Everything students, recruiters and placement officers need,
-                built into a single connected workflow.
-            </p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold mb-0">Featured Placement Drives</h3>
+                <p class="text-muted small mb-0">Explore active hiring drives from top companies</p>
+            </div>
+            <a href="{% url 'placement_drives' %}" class="btn btn-outline-primary rounded-pill px-4">View All Drives</a>
         </div>
 
         <div class="row g-4">
-
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-card">
-                    <div class="feature-icon icon-blue">
-                        <i class="bi bi-mortarboard-fill"></i>
+            {% for drive in featured_drives %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4 bg-white hover-lift">
+                    <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1 mb-2 me-auto fw-bold">₹{{ drive.package }} LPA</span>
+                    <h5 class="fw-bold mb-1 text-dark">{{ drive.job_role }}</h5>
+                    <small class="text-muted d-block mb-3"><i class="bi bi-building me-1"></i>{{ drive.company.name }}</small>
+                    <div class="small text-muted mb-3">
+                        <div><i class="bi bi-geo-alt me-1"></i>{{ drive.location }}</div>
+                        <div><i class="bi bi-mortarboard me-1"></i>Cutoff: {{ drive.eligibility_cgpa }} CGPA</div>
                     </div>
-                    <h5>Student Dashboard</h5>
-                    <p>Track applications, interview status and placement progress in one place.</p>
+                    <a href="{% url 'placement_drives' %}" class="btn btn-sm btn-primary rounded-pill mt-auto">Apply Now</a>
                 </div>
             </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-card">
-                    <div class="feature-icon icon-purple">
-                        <i class="bi bi-building-fill"></i>
-                    </div>
-                    <h5>Recruiter Portal</h5>
-                    <p>Create drives, screen applicants and manage the hiring pipeline with ease.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-card">
-                    <div class="feature-icon icon-teal">
-                        <i class="bi bi-graph-up-arrow"></i>
-                    </div>
-                    <h5>Analytics</h5>
-                    <p>View real-time placement statistics and drive performance at a glance.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="feature-card">
-                    <div class="feature-icon icon-orange">
-                        <i class="bi bi-bell-fill"></i>
-                    </div>
-                    <h5>Notifications</h5>
-                    <p>Instant updates about new drives, deadlines and offer letters.</p>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
-<!-- How It Works -->
-<section class="how-it-works py-5">
-    <div class="container py-3">
-
+<!-- Process Features -->
+<section class="py-5 bg-light mt-4">
+    <div class="container">
         <div class="text-center mb-5">
-            <div class="section-eyebrow mb-2">Process</div>
-            <h2 class="section-title">How It Works</h2>
+            <h2 class="fw-bold mb-2">Complete Recruitment Solution</h2>
+            <p class="text-muted">Designed for Students, Recruiters, and Placement Officers</p>
         </div>
 
-        <div class="row text-center">
-
-            <div class="col-6 col-md-3 step-item">
-                <div class="step-circle">1</div>
-                <div class="step-line"></div>
-                <h5>Register</h5>
-                <p>Create your free account in minutes.</p>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon icon-blue"><i class="bi bi-mortarboard-fill"></i></div>
+                    <h5>Student Portal</h5>
+                    <p>Build profile, upload resume, apply to drives, and track interviews.</p>
+                </div>
             </div>
 
-            <div class="col-6 col-md-3 step-item">
-                <div class="step-circle">2</div>
-                <div class="step-line"></div>
-                <h5>Complete Profile</h5>
-                <p>Add your resume, skills and academic details.</p>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon icon-purple"><i class="bi bi-building-fill"></i></div>
+                    <h5>Recruiter Hub</h5>
+                    <p>Post placement drives, evaluate applicants, shortlist, and schedule interviews.</p>
+                </div>
             </div>
 
-            <div class="col-6 col-md-3 step-item">
-                <div class="step-circle">3</div>
-                <div class="step-line"></div>
-                <h5>Apply for Drives</h5>
-                <p>Browse and apply to live placement drives.</p>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon icon-teal"><i class="bi bi-pie-chart-fill"></i></div>
+                    <h5>Officer Analytics</h5>
+                    <p>Monitor placement metrics, branch statistics, and generate PDF reports.</p>
+                </div>
             </div>
 
-            <div class="col-6 col-md-3 step-item">
-                <div class="step-circle">4</div>
-                <div class="step-line"></div>
-                <h5>Get Hired</h5>
-                <p>Track offers and accept the right one.</p>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <div class="feature-icon icon-orange"><i class="bi bi-bell-fill"></i></div>
+                    <h5>Real-time Alerts</h5>
+                    <p>Notifications for new drives, status updates, and interview schedules.</p>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- CTA -->
+<!-- Call to Action -->
 <section class="py-5">
     <div class="container">
         <div class="cta-section text-center">
-            <h2 class="mb-3">Ready to take the next step in your career?</h2>
-            <p class="mb-4">Join thousands of students already placed through our platform.</p>
-            <a href="{% url 'register' %}" class="btn hero-btn hero-btn-primary btn-lg">
-                Create Your Free Account
+            <h2 class="mb-3">Accelerate Campus Recruitment Today</h2>
+            <p class="mb-4">Empowering students and companies with a seamless, modern recruitment experience.</p>
+            {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="btn hero-btn-primary btn-lg">
+                Create Your Account Now
             </a>
+            {% endif %}
         </div>
     </div>
 </section>
