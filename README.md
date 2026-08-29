@@ -5,4 +5,6 @@
 * The Campus Recruitment Portal aims to provide a centralized platform that simplifies and organizes the complete campus recruitment process, allowing students to manage their profiles and applications, recruiters to manage recruitment opportunities, and placement officers to monitor and coordinate placement activities.
 
 * Goal: To make the campus recruitment process more organized, accessible, and efficient through a single web-based platform
+
+## 
   
